@@ -40,7 +40,11 @@ class SysHandler:
         :return Return a printable table of matched syscalls
         '''
 
-        rawtable = self.search(arch, pattern)
+        if pattern != None and pattern != '':
+            rawtable = self.search(arch, pattern)
+        else:
+            rawtable = self.tables[arch]
+        
         if len(rawtable) == 0:
             return None
 
