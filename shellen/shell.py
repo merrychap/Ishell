@@ -75,8 +75,7 @@ class Shellen(CLI):
         return self.pexec.last_shellcode()
 
     def __prompt_init(self):
-        self.asm_history = InMemoryHistory()
-        self.dsm_history = InMemoryHistory()
+        self.history = InMemoryHistory()
 
         self.prompt_style = style_from_pygments_dict({
             Token:       '#ff0066',
@@ -86,12 +85,6 @@ class Shellen(CLI):
             Token.Arch:  '#5db2fc',
             Token.Pound: '#ffd82a',
         })
-
-    def __get_history(self):
-        if isinstance(self.pexec, AssemblerWrapper):
-            return self.asm_history
-        else:
-            return self.dsm_history
 
     def prompt(self):
         message = [
@@ -103,7 +96,7 @@ class Shellen(CLI):
             ('class:pygments.pound', ' > ')
         ]
 
-        return prompt(message, style=self.prompt_style, history=self.__get_history())
+        return prompt(message, style=self.prompt_style, history=self.history)
 
     def __create_handlers(self):
         self.handlers = {
